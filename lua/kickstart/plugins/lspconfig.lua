@@ -58,6 +58,7 @@ vim.api.nvim_create_autocmd('LspAttach', {
     -- WARN: This is not Goto Definition, this is Goto Declaration.
     --  For example, in C this would take you to the header.
     map('grD', vim.lsp.buf.declaration, '[G]oto [D]eclaration')
+    map('grd', vim.lsp.buf.definition, '[G]oto [D]efinition')
 
     -- The following two autocommands are used to highlight references of the
     -- word under your cursor when your cursor rests there for a little while.
@@ -113,6 +114,45 @@ local servers = {
   --
   -- But for many setups, the LSP (`ts_ls`) will work just fine
   -- ts_ls = {},
+  vtsls = {
+      -- explicitly add default filetypes, so that we can extend
+      -- them in related extras
+    filetypes = {
+      "javascript",
+      "javascriptreact",
+      "javascript.jsx",
+      "typescript",
+      "typescriptreact",
+      "typescript.tsx",
+    },
+    settings = {
+      complete_function_calls = true,
+      vtsls = {
+        enableMoveToFileCodeAction = true,
+        autoUseWorkspaceTsdk = true,
+        experimental = {
+          maxInlayHintLength = 30,
+          completion = {
+            enableServerSideFuzzyMatch = true,
+          },
+        },
+      },
+      typescript = {
+        updateImportsOnFileMove = { enabled = "always" },
+        suggest = {
+          completeFunctionCalls = true,
+        },
+        inlayHints = {
+          enumMemberValues = { enabled = true },
+          functionLikeReturnTypes = { enabled = true },
+          parameterNames = { enabled = "literals" },
+          parameterTypes = { enabled = true },
+          propertyDeclarationTypes = { enabled = true },
+          variableTypes = { enabled = false },
+        },
+      },
+    },
+  },
 
   stylua = {}, -- Used to format Lua code
 
